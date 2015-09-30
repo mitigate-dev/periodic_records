@@ -20,10 +20,6 @@ module PeriodicRecords
         where(t[:end_at].gteq(start_date))
       end
 
-      def within_period(period)
-        within_interval(period.start_at, period.end_at)
-      end
-
       def within_date(date)
         within_interval(date, date)
       end
@@ -46,10 +42,6 @@ module PeriodicRecords
 
     def within_interval?(start_date, end_date)
       start_at && end_at && start_at <= end_date && end_at >= start_date
-    end
-
-    def within_period?(period)
-      within_interval?(period.start_at, period.end_at)
     end
 
     def siblings

@@ -1,5 +1,7 @@
 # PeriodicRecords
 
+[![Build Status](https://travis-ci.org/mak-it/periodic_records.svg?branch=master)](https://travis-ci.org/mak-it/periodic_records)
+
 Support functions for ActiveRecord models with periodic entries.
 
 ## Installation
@@ -12,15 +14,21 @@ gem 'periodic_records'
 
 And then execute:
 
-    $ bundle
+```bash
+$ bundle
+```
 
 Or install it yourself as:
 
-    $ gem install periodic_records
+```bash
+$ gem install periodic_records
+```
 
 ## Preparation
 
-Ensure `start_at` and `end_at` date columns on the model that will have periodic versions. Include `PeriodicRecords::Model`, setup callbacks and define `siblings` method:
+Ensure `start_at` and `end_at` date columns on the model that will have
+periodic versions.
+Include `PeriodicRecords::Model` and define `siblings` method:
 
 ```ruby
 class EmployeeAssignment < ActiveRecord::Base
@@ -34,7 +42,8 @@ class EmployeeAssignment < ActiveRecord::Base
 end
 ```
 
-Include `PeriodicRecords::Associations` in the model that has periodic associations, and call `has_periodic`:
+Include `PeriodicRecords::Associations` in the model that has periodic
+associations, and call `has_periodic`:
 
 ```ruby
 class Employee < ActiveRecord::Base
@@ -47,24 +56,21 @@ end
 
 ## Usage
 
-Look up the currently active record with `model.current_association` or `model.association.current`:
+Look up the currently active record with `model.current_association`:
 
 ```ruby
 employee.current_assignment
 ```
 
-```ruby
-employee.employee_assignments.current
-```
-
-Look up records for specific date or period with `within_date` and `within_period`:
+Look up records for specific date or period
+with `within_date` and `within_interval`:
 
 ```ruby
 employee.employee_assignments.within_date(Date.tomorrow)
 ```
 
 ```ruby
-employee.employee_assignments.within_period(Date.current.beginning_of_month...Date.current.end_of_month)
+employee.employee_assignments.within_interval(Date.current.beginning_of_month...Date.current.end_of_month)
 ```
 
 Look up records starting with specific date with `from_date`
@@ -73,11 +79,27 @@ Look up records starting with specific date with `from_date`
 employee.employee_assignments.from_date(Date.tomorrow)
 ```
 
+Preload currently active records, to avoid N+1 queries on `current_assignment`.
+
+```ruby
+employees = Employee.all
+Employee.preload_current_assignments(employees)
+employees.each do |employee|
+  puts employee.current_assignment.to_s
+end
+```
+
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies.
+Then, run `bin/console` for an interactive prompt that will allow you to
+experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release` to create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`.
+To release a new version, update the version number in `version.rb`,
+and then run `bundle exec rake release` to create a git tag for the version,
+push git commits and tags, and push the `.gem` file
+to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
