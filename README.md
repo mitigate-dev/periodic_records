@@ -4,6 +4,36 @@
 
 Support functions for ActiveRecord models with periodic entries.
 
+* Supports periods where the smallest unit is a whole day
+* Adjusts and splits overlapping records
+* Preloads currently active records to avoid N+1 queries
+
+For example you have employees table and assignments table that stores all the
+employment history.
+
+Employees:
+
+id | name
+---|------
+1  | John
+
+Employee assignments:
+
+id | employee_id | start_at   | end_at     | job_title
+---|-------------|------------|------------|----------
+1  | 1           | 2014-01-01 | 9999-01-01 | Developer
+
+Now John has is promoted to "Senior Developer" you can allow a user to create
+a new employee assignment records and this gem will take care of adjusting and
+splitting overlapping records. In this case it will adjust the `end_at` field
+for the previous assignment.
+
+id | employee_id | start_at   | end_at     | job_title
+---|-------------|------------|------------|-----------------
+1  | 1           | 2014-01-01 | 2018-05-04 | Developer
+2  | 1           | 2018-05-05 | 9999-01-01 | Senior Developer
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
