@@ -22,7 +22,7 @@ Or install it yourself as:
 
 Ensure `start_at` and `end_at` date columns on the model that will have periodic versions. Include `PeriodicRecords::Model`, setup callbacks and define `siblings` method:
 
-```
+```ruby
 class EmployeeAssignment < ActiveRecord::Base
   include PeriodicRecords::Model
 
@@ -36,7 +36,7 @@ end
 
 Include `PeriodicRecords::Associations` in the model that has periodic associations, and call `has_periodic`:
 
-```
+```ruby
 class Employee < ActiveRecord::Base
   include PeriodicRecords::Associations
 
@@ -49,28 +49,28 @@ end
 
 Look up the currently active record with `model.current_association` or `model.association.current`:
 
-```
-  employee.current_assignment
+```ruby
+employee.current_assignment
 ```
 
-```
-  employee.employee_assignments.current
+```ruby
+employee.employee_assignments.current
 ```
 
 Look up records for specific date or period with `within_date` and `within_period`:
 
-```
-  employee.employee_assignments.within_date(Date.tomorrow)
+```ruby
+employee.employee_assignments.within_date(Date.tomorrow)
 ```
 
-```
-  employee.employee_assignments.within_period(Date.current.beginning_of_month...Date.current.end_of_month)
+```ruby
+employee.employee_assignments.within_period(Date.current.beginning_of_month...Date.current.end_of_month)
 ```
 
 Look up records starting with specific date with `from_date`
 
-```
-  employee.employee_assignments.from_date(Date.tomorrow)
+```ruby
+employee.employee_assignments.from_date(Date.tomorrow)
 ```
 
 ## Development
@@ -81,7 +81,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/periodic_records/fork )
+1. Fork it ( https://github.com/mak-it/periodic_records/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
