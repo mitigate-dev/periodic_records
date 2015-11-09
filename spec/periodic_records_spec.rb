@@ -3,7 +3,7 @@ require 'spec_helper'
 describe PeriodicRecords do
   subject(:employee) { Employee.create }
 
-  describe "." do
+  describe ".preload_current_assignments" do
     it "preloads current assignments" do
       create_assignment(status: 'active')
       employees = Employee.all
