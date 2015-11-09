@@ -16,7 +16,7 @@ module PeriodicRecords
         method_name = "preload_current_#{as}"
         accessor_name = "current_#{as.to_s.singularize}"
         define_singleton_method method_name do |records, *associations|
-          reflection = reflections[association]
+          reflection = reflect_on_association(association)
           records_hash = {}
           records.each do |record|
             record.send("#{accessor_name}=", nil)
