@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.2.0] - 2016-04-08
+
+- Use before_save for adjust_overlapping_records so that it works with
+  database constraints
+- Fixed spelling for methods (overlaping -> overlapping)
+
 ## [0.1.1] - 2015-11-09
 
 - Fix preloading with rails 4.2
