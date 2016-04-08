@@ -121,6 +121,36 @@ employees.each do |employee|
 end
 ```
 
+## Database Constraints
+
+To avoid inconsistent data in race conditions, you can add database constraint
+that checks overlapping periods.
+
+Postgres:
+
+```ruby
+class AddEmployeeAssignmentsOverlappingDatesConstraint < ActiveRecord::Migration
+  def up
+    execute "CREATE EXTENSION IF NOT EXISTS btree_gist"
+    execute <<-SQL
+      ALTER TABLE employee_assignments
+      ADD CONSTRAINT employee_assignments_overlapping_dates
+      EXCLUDE USING GIST(
+        employee_id WITH =,
+        TSRANGE(start_at, end_at) WITH &&
+      )
+    SQL
+  end
+
+  def down
+    execute <<-SQL.squish
+      ALTER TABLE employee_assignments
+      DROP CONSTRAINT employee_assignments_overlapping_dates
+    SQL
+  end
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies.

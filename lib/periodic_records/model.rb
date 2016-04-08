@@ -10,7 +10,7 @@ module PeriodicRecords
       validate :validate_dates
 
       after_initialize :set_default_period, if: :set_default_period_after_initialize?
-      after_save :adjust_overlaping_records
+      before_save :adjust_overlaping_records
     end
 
     module ClassMethods
