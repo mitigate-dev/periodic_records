@@ -10,7 +10,7 @@ module PeriodicRecords
       validate :validate_dates
 
       after_initialize :set_default_period, if: :set_default_period_after_initialize?
-      before_save :adjust_overlaping_records
+      before_save :adjust_overlapping_records
     end
 
     module ClassMethods
@@ -48,22 +48,22 @@ module PeriodicRecords
       raise NotImplementedError
     end
 
-    def overlaping_records
-      @overlaping_records ||= siblings.within_interval(start_at, end_at)
+    def overlapping_records
+      @overlapping_records ||= siblings.within_interval(start_at, end_at)
     end
 
-    def adjust_overlaping_records
-      overlaping_records.each do |overlaping_record|
-        if overlaping_record.start_at >= start_at &&
-             overlaping_record.end_at <= end_at
-          destroy_overlaping_record(overlaping_record)
-        elsif overlaping_record.start_at < start_at &&
-                overlaping_record.end_at > end_at
-          split_overlaping_record(overlaping_record)
-        elsif overlaping_record.start_at < start_at
-          adjust_overlaping_record_end_at(overlaping_record)
-        elsif overlaping_record.end_at > end_at
-          adjust_overlaping_record_start_at(overlaping_record)
+    def adjust_overlapping_records
+      overlapping_records.each do |overlapping_record|
+        if overlapping_record.start_at >= start_at &&
+             overlapping_record.end_at <= end_at
+          destroy_overlapping_record(overlapping_record)
+        elsif overlapping_record.start_at < start_at &&
+                overlapping_record.end_at > end_at
+          split_overlapping_record(overlapping_record)
+        elsif overlapping_record.start_at < start_at
+          adjust_overlapping_record_end_at(overlapping_record)
+        elsif overlapping_record.end_at > end_at
+          adjust_overlapping_record_start_at(overlapping_record)
         end
       end
     end
@@ -79,30 +79,30 @@ module PeriodicRecords
       self.end_at   ||= MAX
     end
 
-    def destroy_overlaping_record(overlaping_record)
-      overlaping_record.destroy
+    def destroy_overlapping_record(overlapping_record)
+      overlapping_record.destroy
     end
 
-    def split_overlaping_record(overlaping_record)
-      overlaping_record_end = overlaping_record.dup
-      overlaping_record_end.start_at = end_at + 1.day
-      overlaping_record_end.end_at   = overlaping_record.end_at
+    def split_overlapping_record(overlapping_record)
+      overlapping_record_end = overlapping_record.dup
+      overlapping_record_end.start_at = end_at + 1.day
+      overlapping_record_end.end_at   = overlapping_record.end_at
 
-      overlaping_record_start = overlaping_record
-      overlaping_record_start.end_at = start_at - 1.day
+      overlapping_record_start = overlapping_record
+      overlapping_record_start.end_at = start_at - 1.day
 
-      overlaping_record_start.save(validate: false)
-      overlaping_record_end.save(validate: false)
+      overlapping_record_start.save(validate: false)
+      overlapping_record_end.save(validate: false)
     end
 
-    def adjust_overlaping_record_end_at(overlaping_record)
-      overlaping_record.end_at = start_at - 1.day
-      overlaping_record.save(validate: false)
+    def adjust_overlapping_record_end_at(overlapping_record)
+      overlapping_record.end_at = start_at - 1.day
+      overlapping_record.save(validate: false)
     end
 
-    def adjust_overlaping_record_start_at(overlaping_record)
-      overlaping_record.start_at = end_at + 1.day
-      overlaping_record.save(validate: false)
+    def adjust_overlapping_record_start_at(overlapping_record)
+      overlapping_record.start_at = end_at + 1.day
+      overlapping_record.save(validate: false)
     end
 
     def validate_dates

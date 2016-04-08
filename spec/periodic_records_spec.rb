@@ -15,15 +15,15 @@ describe PeriodicRecords do
     end
   end
 
-  describe '#adjust_overlaping_records' do
+  describe '#adjust_overlapping_records' do
     before do
-      overlaping_record = employee.current_assignment
-      overlaping_record.start_at = EmployeeAssignment::MIN
-      overlaping_record.save!
+      overlapping_record = employee.current_assignment
+      overlapping_record.start_at = EmployeeAssignment::MIN
+      overlapping_record.save!
     end
 
-    it "splits overlaping record in two parts" do
-      overlaping_record = employee.current_assignment
+    it "splits overlapping record in two parts" do
+      overlapping_record = employee.current_assignment
       new_record = new_assignment(
         status:   'active',
         start_at: Date.new(2014, 5, 1),
@@ -45,8 +45,8 @@ describe PeriodicRecords do
       expect(records[2].end_at).to   eq(EmployeeAssignment::MAX)
     end
 
-    it "changes end_at for the overlaping record" do
-      overlaping_record = create_assignment(
+    it "changes end_at for the overlapping record" do
+      overlapping_record = create_assignment(
         status:   'active',
         start_at: Date.new(2014, 5, 1),
         end_at:   Date.new(2014, 5, 6)
@@ -62,13 +62,13 @@ describe PeriodicRecords do
       employee.employee_assignments.reload
       expect(employee.employee_assignments.size).to eq 4
 
-      overlaping_record.reload
-      expect(overlaping_record.start_at).to eq(Date.new(2014, 5, 1))
-      expect(overlaping_record.end_at).to   eq(Date.new(2014, 5, 3))
+      overlapping_record.reload
+      expect(overlapping_record.start_at).to eq(Date.new(2014, 5, 1))
+      expect(overlapping_record.end_at).to   eq(Date.new(2014, 5, 3))
     end
 
-    it "changes start_at for the overlaping record" do
-      overlaping_record = create_assignment(
+    it "changes start_at for the overlapping record" do
+      overlapping_record = create_assignment(
         status:   'active',
         start_at: Date.new(2014, 5, 1),
         end_at:   Date.new(2014, 5, 6)
@@ -83,16 +83,16 @@ describe PeriodicRecords do
       employee.employee_assignments.reload
       expect(employee.employee_assignments.size).to eq 4
 
-      overlaping_record.reload
-      expect(overlaping_record.start_at).to eq(Date.new(2014, 5, 3))
-      expect(overlaping_record.end_at).to   eq(Date.new(2014, 5, 6))
+      overlapping_record.reload
+      expect(overlapping_record.start_at).to eq(Date.new(2014, 5, 3))
+      expect(overlapping_record.end_at).to   eq(Date.new(2014, 5, 6))
     end
 
     it "changes start_at for the overlapping record (right at the beginning)" do
-      overlaping_record = employee.current_assignment
-      overlaping_record.start_at = Date.new(2014, 7, 21)
-      overlaping_record.end_at   = Date.new(2014, 7, 24)
-      overlaping_record.save!
+      overlapping_record = employee.current_assignment
+      overlapping_record.start_at = Date.new(2014, 7, 21)
+      overlapping_record.end_at   = Date.new(2014, 7, 24)
+      overlapping_record.save!
 
       new_record = new_assignment(
         status:   'active',
@@ -116,7 +116,7 @@ describe PeriodicRecords do
     end
 
     it "changes 2 overlapping records" do
-      overlaping_record = create_assignment(
+      overlapping_record = create_assignment(
         status:   'active',
         start_at: Date.new(2014, 5, 1),
         end_at:   Date.new(2014, 5, 6)
@@ -147,7 +147,7 @@ describe PeriodicRecords do
     end
 
     it "deletes overlapping record if it overlaps completly" do
-      overlaping_record = create_assignment(
+      overlapping_record = create_assignment(
         status:   'active',
         start_at: Date.new(2014, 5, 2),
         end_at:   Date.new(2014, 5, 4)
