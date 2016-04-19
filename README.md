@@ -137,7 +137,7 @@ class AddEmployeeAssignmentsOverlappingDatesConstraint < ActiveRecord::Migration
       ADD CONSTRAINT employee_assignments_overlapping_dates
       EXCLUDE USING GIST(
         employee_id WITH =,
-        TSRANGE(start_at, end_at) WITH &&
+        DATERANGE(start_at, end_at, '[]') WITH &&
       )
     SQL
   end
