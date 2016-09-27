@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.2.1] - 2016-09-27
+
+- Relax dependencies for Rails 5 compatibility
+
 ## [0.2.0] - 2016-04-08
 
 - Use before_save for adjust_overlapping_records so that it works with
