@@ -203,7 +203,7 @@ You will not be able to adjust start at for the beginning entry (#1).
 
 You will not be able to adjust end at for the ending entry (#3).
 
-For more examples see [gapless_spec.rb](spec/periodic_records/gapless_spec.rb]).
+For more examples see [gapless_spec.rb](spec/periodic_records/gapless_spec.rb).
 
 ## Development
 
