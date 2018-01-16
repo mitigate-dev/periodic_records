@@ -1,19 +1,7 @@
 require 'spec_helper'
 
-describe PeriodicRecords do
-  subject(:employee) { Employee.create }
-
-  describe ".preload_current_assignments" do
-    it "preloads current assignments" do
-      create_assignment(status: 'active')
-      employees = Employee.all
-      Employee.preload_current_assignments(employees)
-      EmployeeAssignment.delete_all
-      employees.each do |employee|
-        expect(employee.current_assignment).to be_present
-      end
-    end
-  end
+describe PeriodicRecords::Model do
+  let(:employee) { Employee.create }
 
   describe '#adjust_overlapping_records' do
     before do
@@ -173,19 +161,5 @@ describe PeriodicRecords do
       expect(records[2].start_at).to eq(Date.new(2014, 5, 5))
       expect(records[2].end_at).to   eq(EmployeeAssignment::MAX)
     end
-  end
-
-  def new_assignment(attributes)
-    employee.employee_assignments.new(
-      employee.current_assignment.attributes.
-        except("id", "start_at", "end_at").
-        merge(attributes)
-    )
-  end
-
-  def create_assignment(attributes)
-    assignment = new_assignment(attributes)
-    assignment.save!
-    assignment
   end
 end

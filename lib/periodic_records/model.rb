@@ -49,7 +49,7 @@ module PeriodicRecords
     end
 
     def overlapping_records
-      @overlapping_records ||= siblings.within_interval(start_at, end_at)
+      siblings.within_interval(start_at, end_at)
     end
 
     def adjust_overlapping_records
