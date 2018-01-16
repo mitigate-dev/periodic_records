@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.0] - 2018-01-16
+
+- Support gapless records #2
+
 ## [0.2.1] - 2016-09-27
 
 - Relax dependencies for Rails 5 compatibility
