@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.1] - 2018-05-24
+
+- Allow to add custom duplication logic #3
+
 ## [0.3.0] - 2018-01-16
 
 - Support gapless records #2
