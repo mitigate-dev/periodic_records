@@ -72,6 +72,10 @@ module PeriodicRecords
       new_record?
     end
 
+    def periodic_dup
+      dup
+    end
+
     private
 
     def set_default_period
@@ -84,7 +88,7 @@ module PeriodicRecords
     end
 
     def split_overlapping_record(overlapping_record)
-      overlapping_record_end = overlapping_record.dup
+      overlapping_record_end = overlapping_record.periodic_dup
       overlapping_record_end.start_at = end_at + 1.day
       overlapping_record_end.end_at   = overlapping_record.end_at
 
