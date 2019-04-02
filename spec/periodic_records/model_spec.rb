@@ -194,7 +194,7 @@ describe PeriodicRecords::Model do
         expect(records[1].start_at).to eq(Time.new(2014, 5, 1, 9, 20, 0))
         expect(records[1].end_at).to   eq(Time.new(2014, 5, 6, 13, 45, 0))
 
-        expect(records[2].start_at).to eq(Time.new(2014, 5, 6, 13, 45, 0))
+        expect(records[2].start_at).to eq(Time.new(2014, 5, 6, 13, 45, 1))
         expect(records[2].end_at).to   eq(TimeSensitiveEmployeeAssignment::MAX)
       end
 
@@ -237,8 +237,8 @@ describe PeriodicRecords::Model do
         expect(employee.employee_assignments.size).to eq 4
 
         overlapping_record.reload
-        expect(overlapping_record.start_at).to eq(Time.new(2014, 5, 2, 11, 45, 56))
-        expect(overlapping_record.end_at).to   eq(Time.new(2014, 5, 6, 9, 59, 59))
+        expect(overlapping_record.start_at).to eq(Time.new(2014, 5, 2, 11, 45, 57))
+        expect(overlapping_record.end_at).to   eq(Time.new(2014, 5, 6, 10, 0, 0))
       end
 
       it "changes start_at for the overlapping record (right at the beginning)" do
@@ -264,7 +264,7 @@ describe PeriodicRecords::Model do
         expect(records[0].start_at).to eq(Time.new(2014, 7, 21, 9, 0, 0))
         expect(records[0].end_at).to   eq(Time.new(2014, 7, 22, 12, 0, 0))
 
-        expect(records[1].start_at).to eq(Time.new(2014, 7, 22, 12, 0, 0))
+        expect(records[1].start_at).to eq(Time.new(2014, 7, 22, 12, 0, 1))
         expect(records[1].end_at).to   eq(Time.new(2014, 7, 24, 18, 0, 0))
       end
 
@@ -292,10 +292,10 @@ describe PeriodicRecords::Model do
         expect(records[1].start_at).to eq(Time.new(2014, 4, 28, 9, 0, 0))
         expect(records[1].end_at).to   eq(Time.new(2014, 5, 2, 9, 0, 0))
 
-        expect(records[2].start_at).to eq(Time.new(2014, 5, 2, 9, 0, 0))
-        expect(records[2].end_at).to   eq(Time.new(2014, 5, 6, 8, 59, 59))
+        expect(records[2].start_at).to eq(Time.new(2014, 5, 2, 9, 0, 1))
+        expect(records[2].end_at).to   eq(Time.new(2014, 5, 6, 9, 0, 0))
 
-        expect(records[3].start_at).to eq(Time.new(2014, 5, 6, 9, 0, 0))
+        expect(records[3].start_at).to eq(Time.new(2014, 5, 6, 9, 0, 1))
         expect(records[3].end_at).to   eq(TimeSensitiveEmployeeAssignment::MAX)
       end
 
@@ -323,7 +323,7 @@ describe PeriodicRecords::Model do
         expect(records[1].start_at).to eq(Time.new(2014, 5, 2, 8, 30, 0))
         expect(records[1].end_at).to   eq(Time.new(2014, 5, 4, 11, 30, 0))
 
-        expect(records[2].start_at).to eq(Time.new(2014, 5, 4, 11, 30, 0))
+        expect(records[2].start_at).to eq(Time.new(2014, 5, 4, 11, 30, 1))
         expect(records[2].end_at).to   eq(TimeSensitiveEmployeeAssignment::MAX)
       end
     end
