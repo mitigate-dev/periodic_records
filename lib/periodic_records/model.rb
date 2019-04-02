@@ -76,6 +76,10 @@ module PeriodicRecords
       dup
     end
 
+    def periodic_increment
+      use_datetime? ? 0.000001.second : 1.day
+    end
+
     private
 
     def set_default_period
@@ -89,24 +93,28 @@ module PeriodicRecords
 
     def split_overlapping_record(overlapping_record)
       overlapping_record_end = overlapping_record.periodic_dup
-      overlapping_record_end.start_at = end_at + 1.day
+      overlapping_record_end.start_at = end_at + periodic_increment
       overlapping_record_end.end_at   = overlapping_record.end_at
 
       overlapping_record_start = overlapping_record
-      overlapping_record_start.end_at = start_at - 1.day
+      overlapping_record_start.end_at = start_at - periodic_increment
 
       overlapping_record_start.save(validate: false)
       overlapping_record_end.save(validate: false)
     end
 
     def adjust_overlapping_record_end_at(overlapping_record)
-      overlapping_record.end_at = start_at - 1.day
+      overlapping_record.end_at = start_at - periodic_increment
       overlapping_record.save(validate: false)
     end
 
     def adjust_overlapping_record_start_at(overlapping_record)
-      overlapping_record.start_at = end_at + 1.day
+      overlapping_record.start_at = end_at + periodic_increment
       overlapping_record.save(validate: false)
+    end
+
+    def use_datetime?
+      %w(start_at end_at).all? { |a| self.class.type_for_attribute(a).type == :datetime }
     end
 
     def validate_dates
