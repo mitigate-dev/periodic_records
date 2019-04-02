@@ -151,6 +151,12 @@ class AddEmployeeAssignmentsOverlappingDatesConstraint < ActiveRecord::Migration
 end
 ```
 
+## Time sensitive records
+
+If you need your records to be split with time component, then set `start_at` and `end_at` columns to `datetime` type.
+
+When creating database constraint instead of `DATERANGE` use `TSRANGE`.
+
 ## Gapless records
 
 If you want to avoid gaps between records, you can include also `PeriodicRecords::Gapless`.
