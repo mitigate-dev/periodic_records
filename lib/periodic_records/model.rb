@@ -76,8 +76,16 @@ module PeriodicRecords
       dup
     end
 
-    def periodic_increment
-      use_datetime? ? 0.000001.second : 1.day
+    def record_split_step
+      @record_split_step ||= begin
+        column = self.class.column_for_attribute(:start_at)
+        if column.type == :datetime
+           precision = column.precision || 6
+           Float("1.0e-#{precision}").seconds
+        else
+          1.day
+        end
+      end
     end
 
     private
@@ -93,28 +101,24 @@ module PeriodicRecords
 
     def split_overlapping_record(overlapping_record)
       overlapping_record_end = overlapping_record.periodic_dup
-      overlapping_record_end.start_at = end_at + periodic_increment
+      overlapping_record_end.start_at = end_at + record_split_step
       overlapping_record_end.end_at   = overlapping_record.end_at
 
       overlapping_record_start = overlapping_record
-      overlapping_record_start.end_at = start_at - periodic_increment
+      overlapping_record_start.end_at = start_at - record_split_step
 
       overlapping_record_start.save(validate: false)
       overlapping_record_end.save(validate: false)
     end
 
     def adjust_overlapping_record_end_at(overlapping_record)
-      overlapping_record.end_at = start_at - periodic_increment
+      overlapping_record.end_at = start_at - record_split_step
       overlapping_record.save(validate: false)
     end
 
     def adjust_overlapping_record_start_at(overlapping_record)
-      overlapping_record.start_at = end_at + periodic_increment
+      overlapping_record.start_at = end_at + record_split_step
       overlapping_record.save(validate: false)
-    end
-
-    def use_datetime?
-      %w(start_at end_at).all? { |a| self.class.type_for_attribute(a).type == :datetime }
     end
 
     def validate_dates

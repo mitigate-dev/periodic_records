@@ -155,7 +155,7 @@ end
 
 If you need your records to be split with time component, then set `start_at` and `end_at` columns to `datetime` type.
 
-When creating database constraint instead of `DATERANGE` use `TSRANGE`.
+Use `TSRANGE` instead of `DATERANGE` when creating database constraint.
 
 ## Gapless records
 
