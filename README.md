@@ -102,7 +102,7 @@ employee.employee_assignments.within_date(Date.tomorrow)
 ```
 
 ```ruby
-employee.employee_assignments.within_interval(Date.current.beginning_of_month...Date.current.end_of_month)
+employee.employee_assignments.within_interval(Date.current.beginning_of_month, Date.current.end_of_month)
 ```
 
 Look up records starting with specific date with `from_date`
