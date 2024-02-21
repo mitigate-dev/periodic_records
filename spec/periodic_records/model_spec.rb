@@ -188,14 +188,14 @@ describe PeriodicRecords::Model do
         expect(employee.employee_assignments.size).to eq 3
         records = employee.employee_assignments.sort_by(&:start_at).to_a
 
-        expect(records[0].start_at).to eq(TimeSensitiveEmployeeAssignment::MIN)
+        expect(records[0].start_at).to eq(TimeSensitiveEmployeeAssignment::MIN.to_time(:utc))
         expect(records[0].end_at).to   eq(Time.new(2014, 5, 1, 9, 19, 59))
 
         expect(records[1].start_at).to eq(Time.new(2014, 5, 1, 9, 20, 0))
         expect(records[1].end_at).to   eq(Time.new(2014, 5, 6, 13, 45, 0))
 
         expect(records[2].start_at).to eq(Time.new(2014, 5, 6, 13, 45, 1))
-        expect(records[2].end_at).to   eq(TimeSensitiveEmployeeAssignment::MAX)
+        expect(records[2].end_at).to   eq(TimeSensitiveEmployeeAssignment::MAX.to_time(:utc))
       end
 
       it "changes end_at for the overlapping record" do
@@ -286,7 +286,7 @@ describe PeriodicRecords::Model do
 
         records = employee.employee_assignments.sort_by(&:start_at).to_a
 
-        expect(records[0].start_at).to eq(TimeSensitiveEmployeeAssignment::MIN)
+        expect(records[0].start_at).to eq(TimeSensitiveEmployeeAssignment::MIN.to_time(:utc))
         expect(records[0].end_at).to   eq(Time.new(2014, 4, 28, 8, 59, 59))
 
         expect(records[1].start_at).to eq(Time.new(2014, 4, 28, 9, 0, 0))
@@ -296,7 +296,7 @@ describe PeriodicRecords::Model do
         expect(records[2].end_at).to   eq(Time.new(2014, 5, 6, 9, 0, 0))
 
         expect(records[3].start_at).to eq(Time.new(2014, 5, 6, 9, 0, 1))
-        expect(records[3].end_at).to   eq(TimeSensitiveEmployeeAssignment::MAX)
+        expect(records[3].end_at).to   eq(TimeSensitiveEmployeeAssignment::MAX.to_time(:utc))
       end
 
       it "deletes overlapping record if it overlaps completely" do
@@ -317,14 +317,15 @@ describe PeriodicRecords::Model do
 
         records = employee.employee_assignments.sort_by(&:start_at).to_a
 
-        expect(records[0].start_at).to eq(TimeSensitiveEmployeeAssignment::MIN)
+        puts records[0].start_at.class.name
+        expect(records[0].start_at).to eq(TimeSensitiveEmployeeAssignment::MIN.to_time(:utc))
         expect(records[0].end_at).to   eq(Time.new(2014, 5, 2, 8, 29, 59))
 
         expect(records[1].start_at).to eq(Time.new(2014, 5, 2, 8, 30, 0))
         expect(records[1].end_at).to   eq(Time.new(2014, 5, 4, 11, 30, 0))
 
         expect(records[2].start_at).to eq(Time.new(2014, 5, 4, 11, 30, 1))
-        expect(records[2].end_at).to   eq(TimeSensitiveEmployeeAssignment::MAX)
+        expect(records[2].end_at).to   eq(TimeSensitiveEmployeeAssignment::MAX.to_time(:utc))
       end
     end
   end

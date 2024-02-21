@@ -1,7 +1,5 @@
 # PeriodicRecords
 
-[![Build Status](https://travis-ci.org/mak-it/periodic_records.svg?branch=master)](https://travis-ci.org/mak-it/periodic_records)
-
 Support functions for ActiveRecord models with periodic entries.
 
 * Supports periods where the smallest unit is a whole day
