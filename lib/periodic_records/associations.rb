@@ -30,8 +30,15 @@ module PeriodicRecords
             state.send("#{reflection.inverse_of.name}=", record)
           end
           unless associations.empty?
-            ActiveRecord::Associations::Preloader.new.
-              preload(states, associations)
+            if ActiveRecord::VERSION::MAJOR >= 7
+              ActiveRecord::Associations::Preloader.new(
+                records: states,
+                associations: associations
+              ).call
+            else
+              ActiveRecord::Associations::Preloader.new.
+                preload(states, associations)
+            end
           end
         end
       end
